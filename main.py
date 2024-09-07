@@ -7,6 +7,7 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
+from powerup.powerup import PowerUp
 import sys
 
 
@@ -20,14 +21,22 @@ def main():
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
     shots = pygame.sprite.Group()
-    
+    powerups = pygame.sprite.Group()
+
+    PowerUp.containers = (drawable)
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
 
+    PowerUp(200, 300, 0, 1, 30)
+
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()
+
+    print("Starting asteroids!")
+    print(f"Screen width: {SCREEN_WIDTH}")
+    print(f"Screen height: {SCREEN_HEIGHT}")
 
     while True:
         for event in pygame.event.get():
@@ -54,10 +63,6 @@ def main():
 
         pygame.display.flip()
         dt = clock.tick(60) / 1000
-
-    print("Starting asteroids!")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 from circleshape import CircleShape
 from constants import *
-from powerupenum import PowerUpEnum
+from powerup.powerupenum import PowerUpEnum
 
 import pygame
 import random
@@ -22,7 +22,7 @@ class Shot(CircleShape):
             self.kill()
         
         # self.mods.sort(key=lambda x: x.type)
-        self.mods.sort()
+        list(self.mods).sort()
         undestrucible = PowerUpEnum.UNDESTRACTABLE.value in self.mods
         guided = PowerUpEnum.GUIDED.value in self.mods
 

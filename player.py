@@ -1,7 +1,7 @@
 from circleshape import CircleShape
 from constants import *
 from shot import Shot
-from powerupenum import PowerUpEnum
+from powerup.powerupenum import PowerUpEnum
 
 
 import pygame
@@ -11,7 +11,7 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.timer = 0
-        self.powerups = [2, 4]
+        self.powerups = {2, 4, 1}
         
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
