@@ -1,6 +1,8 @@
 from circleshape import CircleShape
 from constants import *
 from shot import Shot
+from powerupenum import PowerUpEnum
+
 
 import pygame
 
@@ -9,8 +11,8 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.timer = 0
+        self.powerups = [2, 4]
         
-
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
@@ -48,5 +50,13 @@ class Player(CircleShape):
     def shoot(self):
         if not self.timer > 0:
             self.timer = PLAYER_SHOOT_COOLDOWN
-            new_shot = Shot(self.position.x, self.position.y)
+
+            new_shot = Shot(self.position.x, self.position.y, self.powerups)
             new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
+
+            if PowerUpEnum.TRIPLE_SHOT.value in self.powerups:
+                new_shot = Shot(self.position.x, self.position.y, self.powerups)
+                new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation - 20) * PLAYER_SHOOT_SPEED
+
+                new_shot = Shot(self.position.x, self.position.y, self.powerups)
+                new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation + 20) * PLAYER_SHOOT_SPEED

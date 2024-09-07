@@ -7,6 +7,7 @@ import random
 class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
+        self.already_split = False
     
     def draw(self, screen):
         pygame.draw.circle(screen, "white", (self.position.x, self.position.y), self.radius, 2)
@@ -16,8 +17,10 @@ class Asteroid(CircleShape):
     
     def split(self):
         self.kill()
-        if self.radius <= ASTEROID_MIN_RADIUS:
+        if self.radius <= ASTEROID_MIN_RADIUS or self.already_split:
             return
+        
+        self.already_split = True
         random_angle = random.uniform(20, 50)
         
         vector_one = self.velocity.rotate(random_angle)
