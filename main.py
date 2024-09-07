@@ -8,6 +8,8 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
 from powerup.powerup import PowerUp
+from powerup.powerups import PowerUps
+from powerup.powerupenum import *
 import sys
 
 
@@ -23,21 +25,21 @@ def main():
     shots = pygame.sprite.Group()
     powerups = pygame.sprite.Group()
 
-    PowerUp.containers = (drawable)
+    PowerUp.containers = (powerups, updatable, drawable)
+    PowerUps.containers = (updatable)
     Player.containers = (updatable, drawable)
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable)
     Shot.containers = (shots, updatable, drawable)
 
-    PowerUp(200, 300, 0, 1, 30)
-
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()
+    power_ups = PowerUps()
 
     print("Starting asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
-
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -51,13 +53,18 @@ def main():
         for asteroid in asteroids:
             if asteroid.check_collision(player):
                 print("Game over!")
-                sys.exit()
+                #sys.exit()
             
             for shot in shots:
                 if asteroid.check_collision(shot):
                     shot.collide()
-                    asteroid.split()
+                    asteroid.split() 
+                
             
+        for powerup in powerups:
+            if powerup.check_collision(player):
+                player.get_powerup(powerup)
+
         for draw in drawable:
             draw.draw(screen)
 

@@ -11,8 +11,14 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.timer = 0
-        self.powerups = {2, 4, 1}
-        
+        self.powerups = {}
+
+    def init_powerups(self):
+        power_up_dict = {}
+        for e in PowerUpEnum:
+            power_up_dict[e.value] = 0
+        return power_up_dict
+
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
@@ -43,6 +49,8 @@ class Player(CircleShape):
         if keys[pygame.K_SPACE]:
             self.shoot()
 
+        self.update_powerups(dt)    
+
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt    
@@ -60,3 +68,19 @@ class Player(CircleShape):
 
                 new_shot = Shot(self.position.x, self.position.y, self.powerups)
                 new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation + 20) * PLAYER_SHOOT_SPEED
+    
+    def get_powerup(self, powerup):
+        self.powerups[powerup.type] = powerup.effect_duration
+        powerup.kill()
+
+    def update_powerups(self,dt):
+        powerup_dict = {}
+
+        for powerup in self.powerups:
+            self.powerups[powerup] -= dt
+            if self.powerups[powerup] > 0:
+                powerup_dict[powerup] = self.powerups[powerup]
+        
+        self.powerups = powerup_dict
+
+
