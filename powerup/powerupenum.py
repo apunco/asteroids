@@ -5,5 +5,6 @@ class PowerUpEnum(Enum):
     SPLIT_SHOT = 2
     GUIDED = 3
     TRIPLE_SHOT = 4
+    FAST_SHOT = 5
 
         

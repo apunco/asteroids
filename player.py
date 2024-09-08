@@ -13,12 +13,6 @@ class Player(CircleShape):
         self.timer = 0
         self.powerups = {}
 
-    def init_powerups(self):
-        power_up_dict = {}
-        for e in PowerUpEnum:
-            power_up_dict[e.value] = 0
-        return power_up_dict
-
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5
@@ -58,29 +52,33 @@ class Player(CircleShape):
     def shoot(self):
         if not self.timer > 0:
             self.timer = PLAYER_SHOOT_COOLDOWN
+            if PowerUpEnum.FAST_SHOT.value in self.powerups:
+                self.timer /= 3
+                print(PLAYER_SHOOT_COOLDOWN)
+                print(self.timer)
 
             new_shot = Shot(self.position.x, self.position.y, self.powerups)
             new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
 
             if PowerUpEnum.TRIPLE_SHOT.value in self.powerups:
+                print("GOT TRIPLE SHOT")
                 new_shot = Shot(self.position.x, self.position.y, self.powerups)
                 new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation - 20) * PLAYER_SHOOT_SPEED
 
                 new_shot = Shot(self.position.x, self.position.y, self.powerups)
                 new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation + 20) * PLAYER_SHOOT_SPEED
     
-    def get_powerup(self, powerup):
-        self.powerups[powerup.type] = powerup.effect_duration
-        powerup.kill()
+    def get_powerup(self, new_powerup):
+        self.powerups[new_powerup.type] = new_powerup    
+        new_powerup.kill()
+        return        
 
     def update_powerups(self,dt):
         powerup_dict = {}
-
         for powerup in self.powerups:
-            self.powerups[powerup] -= dt
-            if self.powerups[powerup] > 0:
+            self.powerups[powerup].effect_duration -= dt
+            if self.powerups[powerup].effect_duration > 0:
                 powerup_dict[powerup] = self.powerups[powerup]
-        
-        self.powerups = powerup_dict
 
+        return powerup_dict
 
