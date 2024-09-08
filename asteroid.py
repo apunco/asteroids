@@ -8,13 +8,28 @@ class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         self.already_split = False
-    
+        self.border_collision = False
+
     def draw(self, screen):
         pygame.draw.circle(screen, "white", (self.position.x, self.position.y), self.radius, 2)
     
-    def update(self,dt ):
+    def update(self,dt):
         self.position += (self.velocity * dt)
-    
+
+        ## Check if inside the game board
+        if ((self.position.x - self.radius > BORDER_POSITIVE_X_OFFSET and self.position.x + self.radius < SCREEN_WIDTH - BORDER_NEGATIVE_X_OFFSET) and
+            (self.position.y - self.radius > BORDER_NEGATIVE_Y_OFFSET and self.position.y + self.radius < SCREEN_HEIGHT - BORDER_POSITIVE_Y_OFFSET)):
+                self.border_collision = True
+
+    def check_border_collision(self):
+         if self.border_collision:
+            if (self.position.x - self.radius <= BORDER_POSITIVE_X_OFFSET or 
+                self.position.x + self.radius >= SCREEN_WIDTH - BORDER_NEGATIVE_X_OFFSET):
+                self.velocity[0] *= -1
+            if (self.position.y - self.radius <= BORDER_NEGATIVE_Y_OFFSET or
+                self.position.y + self.radius >= SCREEN_HEIGHT - BORDER_POSITIVE_Y_OFFSET):
+                self.velocity[1] *= -1            
+                   
     def split(self):
         self.kill()
 

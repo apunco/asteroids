@@ -34,6 +34,11 @@ class AsteroidField(pygame.sprite.Sprite):
         self.asteroid_spawn_timer = 0.0
         self.powerup_spawn_timer = 0.0
         self.powerup_spawn_interval = self.get_powerup_spawn_interval()
+        self.spawn_as_now = True
+
+    def draw(self,screen):
+        field_border = pygame.Rect(BORDER_POSITIVE_X_OFFSET, BORDER_POSITIVE_Y_OFFSET, SCREEN_WIDTH - BORDER_NEGATIVE_X_OFFSET, SCREEN_HEIGHT - BORDER_NEGATIVE_Y_OFFSET)
+        pygame.draw.rect(screen, "WHITE", field_border, 5)
 
     def update(self, dt):
         self.asteroid_spawn_timer += dt
@@ -43,7 +48,8 @@ class AsteroidField(pygame.sprite.Sprite):
         self.check_powerup_spawn_timer()
     
     def check_asteroid_spawn_timer(self):
-        if self.asteroid_spawn_timer > ASTEROID_SPAWN_RATE:
+        if self.asteroid_spawn_timer > ASTEROID_SPAWN_RATE or self.spawn_as_now:
+            self.spawn_as_now = False
             self.asteroid_spawn_timer = 0
             self.spawn_asteroid()
 

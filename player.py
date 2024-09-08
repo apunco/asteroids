@@ -76,5 +76,5 @@ class Player(CircleShape):
             if self.powerups[powerup].effect_duration > 0:
                 powerup_dict[powerup] = self.powerups[powerup]
 
-        return powerup_dict
+        self.powerups = powerup_dict
 
