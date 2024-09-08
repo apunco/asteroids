@@ -3,7 +3,6 @@ from constants import *
 from shot import Shot
 from powerup.powerupenum import PowerUpEnum
 
-
 import pygame
 
 class Player(CircleShape):
@@ -54,14 +53,11 @@ class Player(CircleShape):
             self.timer = PLAYER_SHOOT_COOLDOWN
             if PowerUpEnum.FAST_SHOT.value in self.powerups:
                 self.timer /= 3
-                print(PLAYER_SHOOT_COOLDOWN)
-                print(self.timer)
 
             new_shot = Shot(self.position.x, self.position.y, self.powerups)
             new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation) * PLAYER_SHOOT_SPEED
 
             if PowerUpEnum.TRIPLE_SHOT.value in self.powerups:
-                print("GOT TRIPLE SHOT")
                 new_shot = Shot(self.position.x, self.position.y, self.powerups)
                 new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation - 20) * PLAYER_SHOOT_SPEED
 
