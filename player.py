@@ -46,7 +46,10 @@ class Player(CircleShape):
 
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * PLAYER_SPEED * dt    
+        position = self.position + forward * PLAYER_SPEED * dt
+        print(position.y)
+        if not self.check_border_collision(position):
+            self.position += forward * PLAYER_SPEED * dt    
 
     def shoot(self):
         if not self.timer > 0:
@@ -64,17 +67,21 @@ class Player(CircleShape):
                 new_shot = Shot(self.position.x, self.position.y, self.powerups)
                 new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation + 20) * PLAYER_SHOOT_SPEED
     
+    def check_border_collision(self,position):
+        return ((position.x - self.radius <= BORDER_RIGHT_OFFSET or 
+                position.x + self.radius >= SCREEN_WIDTH - BORDER_LEFT_OFFSET) or
+                (position.y - self.radius <= BORDER_TOP_OFFSET or
+                position.y + self.radius >= SCREEN_HEIGHT - BORDER_BOTTOM_OFFSET))
+
     def get_powerup(self, new_powerup):
         self.powerups[new_powerup.type] = new_powerup    
         new_powerup.kill()
         return        
 
     def update_powerups(self,dt):
-        powerup_dict = {}
-        for powerup in self.powerups:
-            self.powerups[powerup].effect_duration -= dt
-            if self.powerups[powerup].effect_duration > 0:
-                powerup_dict[powerup] = self.powerups[powerup]
+        if self.powerups:
+            for powerup in self.powerups:
+                self.powerups[powerup].effect_duration -= dt
 
-        self.powerups = powerup_dict
+            self.powerups = {k:v for (k,v) in self.powerups.items() if v.effect_duration > 0}
 

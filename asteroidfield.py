@@ -37,7 +37,7 @@ class AsteroidField(pygame.sprite.Sprite):
         self.spawn_as_now = True
 
     def draw(self,screen):
-        field_border = pygame.Rect(BORDER_POSITIVE_X_OFFSET, BORDER_POSITIVE_Y_OFFSET, SCREEN_WIDTH - BORDER_NEGATIVE_X_OFFSET, SCREEN_HEIGHT - BORDER_NEGATIVE_Y_OFFSET)
+        field_border = pygame.Rect(BORDER_RIGHT_OFFSET, BORDER_TOP_OFFSET, SCREEN_WIDTH - BORDER_LEFT_OFFSET, SCREEN_HEIGHT - BORDER_BOTTOM_OFFSET)
         pygame.draw.rect(screen, "WHITE", field_border, 5)
 
     def update(self, dt):
@@ -71,8 +71,8 @@ class AsteroidField(pygame.sprite.Sprite):
         asteroid.velocity = velocity
 
     def spawn_powerup(self):
-        PowerUp(random.randint(5, SCREEN_WIDTH - 30),
-                random.randint(5, SCREEN_HEIGHT - 30),
+        PowerUp(random.randint(BORDER_RIGHT_OFFSET + POWER_UP_RADIUS, SCREEN_WIDTH - BORDER_LEFT_OFFSET - POWER_UP_RADIUS),
+                random.randint(BORDER_BOTTOM_OFFSET + POWER_UP_RADIUS, SCREEN_HEIGHT - BORDER_TOP_OFFSET - POWER_UP_RADIUS),
                 random.randint(1, len(PowerUpEnum)),
                 random.randint(POWER_UP_MIN_DURATION_INTERVAL, POWER_UP_MAX_DURATION_INTERVAL))
    

@@ -12,7 +12,7 @@ from powerup.powerupenum import *
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((SCREEN_WIDTH + BORDER_RIGHT_OFFSET + BORDER_LEFT_OFFSET, SCREEN_HEIGHT + BORDER_TOP_OFFSET + BORDER_BOTTOM_OFFSET))
     clock = pygame.time.Clock()
     dt = 0
 
@@ -51,7 +51,7 @@ def main():
                 #sys.exit()
             
             asteroid.check_border_collision()
-
+            
             for shot in shots:
                 if asteroid.check_collision(shot):
                     shot.collide()

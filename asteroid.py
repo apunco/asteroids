@@ -17,17 +17,17 @@ class Asteroid(CircleShape):
         self.position += (self.velocity * dt)
 
         ## Check if inside the game board
-        if ((self.position.x - self.radius > BORDER_POSITIVE_X_OFFSET and self.position.x + self.radius < SCREEN_WIDTH - BORDER_NEGATIVE_X_OFFSET) and
-            (self.position.y - self.radius > BORDER_NEGATIVE_Y_OFFSET and self.position.y + self.radius < SCREEN_HEIGHT - BORDER_POSITIVE_Y_OFFSET)):
+        if ((self.position.x - self.radius > BORDER_RIGHT_OFFSET and self.position.x + self.radius < SCREEN_WIDTH - BORDER_LEFT_OFFSET) and
+            (self.position.y - self.radius > BORDER_TOP_OFFSET and self.position.y + self.radius < SCREEN_HEIGHT - BORDER_BOTTOM_OFFSET)):
                 self.border_collision = True
 
     def check_border_collision(self):
          if self.border_collision:
-            if (self.position.x - self.radius <= BORDER_POSITIVE_X_OFFSET or 
-                self.position.x + self.radius >= SCREEN_WIDTH - BORDER_NEGATIVE_X_OFFSET):
+            if (self.position.x - self.radius <= BORDER_RIGHT_OFFSET or 
+                self.position.x + self.radius >= SCREEN_WIDTH - BORDER_LEFT_OFFSET):
                 self.velocity[0] *= -1
-            if (self.position.y - self.radius <= BORDER_NEGATIVE_Y_OFFSET or
-                self.position.y + self.radius >= SCREEN_HEIGHT - BORDER_POSITIVE_Y_OFFSET):
+            if (self.position.y - self.radius <= BORDER_BOTTOM_OFFSET or
+                self.position.y + self.radius >= SCREEN_HEIGHT - BORDER_TOP_OFFSET):
                 self.velocity[1] *= -1            
                    
     def split(self):
