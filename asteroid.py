@@ -1,5 +1,7 @@
 from circleshape import CircleShape
 from constants import *
+from screendimensions.screendimensions import *
+from screendimensions.screencoordinatesenum import *
 
 import pygame
 import random
@@ -23,11 +25,12 @@ class Asteroid(CircleShape):
 
     def check_border_collision(self):
          if self.border_collision:
-            if (self.position.x - self.radius <= BORDER_RIGHT_OFFSET or 
-                self.position.x + self.radius >= SCREEN_WIDTH - BORDER_LEFT_OFFSET):
+            if (self.position.x - self.radius <= screencoordinates[ScreenCoordinatesEnum.LEFT] or 
+                self.position.x + self.radius >= screencoordinates[ScreenCoordinatesEnum.RIGHT]):
                 self.velocity[0] *= -1
-            if (self.position.y - self.radius <= BORDER_BOTTOM_OFFSET or
-                self.position.y + self.radius >= SCREEN_HEIGHT - BORDER_TOP_OFFSET):
+            if (self.position.y - self.radius <= screencoordinates[ScreenCoordinatesEnum.TOP] or
+                self.position.y + self.radius >= screencoordinates[ScreenCoordinatesEnum.BOTTOM]):
+                print(f"{screencoordinates} , {screendimensions} , {self.position}, {self.radius}")
                 self.velocity[1] *= -1            
                    
     def split(self):

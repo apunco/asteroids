@@ -2,6 +2,8 @@ from circleshape import CircleShape
 from constants import *
 from shot import Shot
 from powerup.powerupenum import PowerUpEnum
+from screendimensions.screendimensions import *
+from screendimensions.screencoordinatesenum import *
 
 import pygame
 
@@ -47,7 +49,7 @@ class Player(CircleShape):
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         position = self.position + forward * PLAYER_SPEED * dt
-        print(position.y)
+
         if not self.check_border_collision(position):
             self.position += forward * PLAYER_SPEED * dt    
 
@@ -68,10 +70,11 @@ class Player(CircleShape):
                 new_shot.velocity = pygame.Vector2(0, 1).rotate(self.rotation + 20) * PLAYER_SHOOT_SPEED
     
     def check_border_collision(self,position):
-        return ((position.x - self.radius <= BORDER_RIGHT_OFFSET or 
-                position.x + self.radius >= SCREEN_WIDTH - BORDER_LEFT_OFFSET) or
-                (position.y - self.radius <= BORDER_TOP_OFFSET or
-                position.y + self.radius >= SCREEN_HEIGHT - BORDER_BOTTOM_OFFSET))
+        return ((position.x - self.radius <= screencoordinates[ScreenCoordinatesEnum.LEFT] or 
+                position.x + self.radius >= screencoordinates[ScreenCoordinatesEnum.RIGHT]) or
+                (position.y - self.radius <= screencoordinates[ScreenCoordinatesEnum.TOP] or
+                position.y + self.radius >= screencoordinates[ScreenCoordinatesEnum.BOTTOM]))
+    
 
     def get_powerup(self, new_powerup):
         self.powerups[new_powerup.type] = new_powerup    

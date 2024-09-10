@@ -9,10 +9,13 @@ from asteroidfield import AsteroidField
 from shot import Shot
 from powerup.powerup import PowerUp
 from powerup.powerupenum import *
+from screendimensions.screendimensions import *
+from screendimensions.screencoordinatesenum import *
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH + BORDER_RIGHT_OFFSET + BORDER_LEFT_OFFSET, SCREEN_HEIGHT + BORDER_TOP_OFFSET + BORDER_BOTTOM_OFFSET))
+    set_screen_dimensions(SCREEN_WIDTH, SCREEN_HEIGHT)
+    screen = pygame.display.set_mode((screendimensions[ScreenDimensionsEnum.WIDTH], screendimensions[ScreenDimensionsEnum.HEIGHT]))
     clock = pygame.time.Clock()
     dt = 0
 
@@ -39,6 +42,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+            elif event.type == pygame.VIDEORESIZE or event.type == pygame.VIDEOEXPOSE:
+                screensize = screen.get_size()
+                set_screen_dimensions(screensize[0], screensize[1])
 
         screen.fill("black")
 
@@ -67,6 +73,21 @@ def main():
         pygame.display.flip()
         dt = clock.tick(60) / 1000
 
+def set_screen_dimensions(width, height):
+    screendimensions[ScreenDimensionsEnum.WIDTH] = width + BORDER_RIGHT_OFFSET + BORDER_LEFT_OFFSET
+    screendimensions[ScreenDimensionsEnum.HEIGHT] = height + BORDER_TOP_OFFSET + BORDER_BOTTOM_OFFSET
+
+    screencoordinates[ScreenCoordinatesEnum.LEFT] = BORDER_LEFT_OFFSET
+    screencoordinates[ScreenCoordinatesEnum.RIGHT] = screendimensions[ScreenDimensionsEnum.WIDTH] - BORDER_RIGHT_OFFSET - BORDER_LEFT_OFFSET - SCREEN_BORDER_WIDTH * 2
+    screencoordinates[ScreenCoordinatesEnum.TOP] = BORDER_TOP_OFFSET
+    screencoordinates[ScreenCoordinatesEnum.BOTTOM] = screendimensions[ScreenDimensionsEnum.HEIGHT] - BORDER_BOTTOM_OFFSET - screencoordinates[ScreenCoordinatesEnum.TOP] - SCREEN_BORDER_WIDTH * 2
+    
+    print(screendimensions)
+    print(screencoordinates)
+
 if __name__ == "__main__":
     main()
+
+
+
 

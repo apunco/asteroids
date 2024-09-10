@@ -1,6 +1,8 @@
 from circleshape import CircleShape
 from constants import *
 from powerup.powerupenum import PowerUpEnum
+from screendimensions.screendimensions import *
+from screendimensions.screencoordinatesenum import *
 
 import pygame
 import random
@@ -18,8 +20,8 @@ class Shot(CircleShape):
         self.position += self.velocity * dt
 
         # Check for out of Bounds
-        if ((self.position.x < 0 or self.position.x > SCREEN_WIDTH) or
-            (self.position.y < 0 or self.position.y > SCREEN_HEIGHT)):
+        if ((self.position.x < screencoordinates[ScreenCoordinatesEnum.LEFT] or self.position.x > screencoordinates[ScreenCoordinatesEnum.RIGHT]) or
+            (self.position.y < screencoordinates[ScreenCoordinatesEnum.TOP] or self.position.y > screencoordinates[ScreenCoordinatesEnum.BOTTOM])):
             self.kill()
             
     def collide(self):
