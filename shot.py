@@ -1,4 +1,4 @@
-from circleshape import CircleShape
+from shape import Shape
 from constants import *
 from powerup.powerupenum import PowerUpEnum
 from screendimensions.screendimensions import *
@@ -7,7 +7,7 @@ from screendimensions.screencoordinatesenum import *
 import pygame
 import random
 
-class Shot(CircleShape):
+class Shot(Shape):
     def __init__(self, x, y, mods):
         super().__init__(x, y, SHOT_RADIUS)
         self.mods = mods

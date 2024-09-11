@@ -9,6 +9,7 @@ from asteroidfield import AsteroidField
 from shot import Shot
 from powerup.powerup import PowerUp
 from powerup.powerupenum import *
+from powerup.powerupui import PowerUpUi
 from screendimensions.screendimensions import *
 from screendimensions.screencoordinatesenum import *
 
@@ -30,6 +31,7 @@ def main():
     Asteroid.containers = (asteroids, updatable, drawable)
     AsteroidField.containers = (updatable, drawable)
     Shot.containers = (shots, updatable, drawable)
+    PowerUpUi.containers = (drawable, updatable)
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()

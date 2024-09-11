@@ -1,4 +1,4 @@
-from circleshape import CircleShape
+from shape import Shape
 from constants import *
 from screendimensions.screendimensions import *
 from screendimensions.screencoordinatesenum import *
@@ -6,7 +6,7 @@ from screendimensions.screencoordinatesenum import *
 import pygame
 import random
 
-class Asteroid(CircleShape):
+class Asteroid(Shape):
     def __init__(self, x, y, radius):
         super().__init__(x, y, radius)
         self.already_split = False

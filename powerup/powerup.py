@@ -1,11 +1,11 @@
-from circleshape import CircleShape
+from shape import Shape
 from powerup.powerupenum import PowerUpEnum
 from powerup.powerupconfig import power_up_dict
 from constants import *
 
 import pygame
 
-class PowerUp(CircleShape):
+class PowerUp(Shape):
     def __init__(self, x, y, power_up_type, duration):
         super().__init__(x, y, POWER_UP_RADIUS)
         self.type = power_up_type
