@@ -30,7 +30,6 @@ class Asteroid(CircleShape):
                 self.velocity[0] *= -1
             if (self.position.y - self.radius <= screencoordinates[ScreenCoordinatesEnum.TOP] or
                 self.position.y + self.radius >= screencoordinates[ScreenCoordinatesEnum.BOTTOM]):
-                print(f"{screencoordinates} , {screendimensions} , {self.position}, {self.radius}")
                 self.velocity[1] *= -1            
                    
     def split(self):
